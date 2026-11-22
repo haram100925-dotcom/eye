@@ -1,6 +1,6 @@
 # Android 네이티브(Capacitor + AdMob) & iOS PWA 듀얼 출시 가이드
 
-- **프로젝트명**: 노안방지 - 하루 3분 가보르 시력 훈련 (`com.cronya.eye_training`)
+- **프로젝트명**: 노안방지 - 하루 3분 가보르 시력 훈련 (`kr.pe.cronya.twa`)
 - **웹 배포 주소**: https://cronya.pe.kr/eye/
 - **Android 앱 방식**: Capacitor 네이티브 앱 + Google AdMob SDK (`.aab` 빌드)
 - **iOS 웹 앱 방식**: Safari PWA ("홈 화면에 추가")

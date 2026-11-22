@@ -319,7 +319,7 @@ export const StoreSEOGuideModal: React.FC<StoreSEOGuideModalProps> = ({
                       3. Google Play Console에 업로드 & 출시
                     </span>
                     <p className="text-[11px] text-slate-600">
-                      패키지 ID <code>com.cronya.eye_training</code>으로 등록하고 <code>.aab</code>와 스크린샷을 올리면 됩니다. 안드로이드 웹 브라우저 접속자는 자동으로 Play 스토어 설치 버튼을 보게 됩니다.
+                      패키지 ID <code>kr.pe.cronya.twa</code>으로 등록하고 <code>.aab</code>와 스크린샷을 올리면 됩니다. 안드로이드 웹 브라우저 접속자는 자동으로 Play 스토어 설치 버튼을 보게 됩니다.
                     </p>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-package com.cronya.eye_training;
+package kr.pe.cronya.twa;
 
 import com.getcapacitor.BridgeActivity;
 

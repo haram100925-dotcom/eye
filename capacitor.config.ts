@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.cronya.eye_training',
+  appId: 'kr.pe.cronya.twa',
   appName: '노안방지 - 눈건강 3분',
   webDir: 'dist',
   server: {

@@ -13,7 +13,7 @@ export const ADMOB_APP_ID = 'ca-app-pub-2281115817010682~4985485283';
 export const ADMOB_BANNER_ID = 'ca-app-pub-2281115817010682/9855115692';
 export const ADMOB_INTERSTITIAL_ID = 'ca-app-pub-2281115817010682/8542034027';
 
-export const PLAY_STORE_PACKAGE_ID = 'com.cronya.eye_training';
+export const PLAY_STORE_PACKAGE_ID = 'kr.pe.cronya.twa';
 export const PLAY_STORE_URL = `https://play.google.com/store/apps/details?id=${PLAY_STORE_PACKAGE_ID}`;
 
 let isInitialized = false;
