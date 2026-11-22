@@ -30,6 +30,7 @@ const VISION_LEVELS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.
 export const VisionAcuityTest: React.FC<VisionTestProps> = ({ onTestComplete, language = 'ko' }) => {
   const [stage, setStage] = useState<'intro' | 'testing' | 'result'>('intro');
   const [showAd, setShowAd] = useState<boolean>(false);
+  const [isStartingAd, setIsStartingAd] = useState<boolean>(false);
   const [currentEye, setCurrentEye] = useState<EyeStage>('left');
   const [levelIndex, setLevelIndex] = useState<number>(0);
   const [currentDir, setCurrentDir] = useState<Direction>('right');
@@ -200,15 +201,22 @@ export const VisionAcuityTest: React.FC<VisionTestProps> = ({ onTestComplete, la
           </div>
 
           <button
+            disabled={isStartingAd}
             onClick={async () => {
+              if (isStartingAd) return;
               if (isNativeApp()) {
-                await showNativeInterstitial({ force: true });
+                setIsStartingAd(true);
+                try {
+                  await showNativeInterstitial({ force: true, waitForReadyMs: 4500 });
+                } finally {
+                  setIsStartingAd(false);
+                }
                 startTest();
               } else {
                 setShowAd(true);
               }
             }}
-            className="w-full h-12 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
+            className="w-full h-12 rounded-xl bg-teal-700 hover:bg-teal-800 disabled:opacity-70 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
           >
             <Play className="w-4 h-4" />
             <span>{t.visionTest.startTestBtn}</span>
