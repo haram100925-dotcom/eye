@@ -102,16 +102,16 @@ export const EyeTrackerStats: React.FC<EyeTrackerProps> = ({
   const getSessionTypeName = (s: TrainingSessionRecord): string => {
     if (s.type === '3min_routine') {
       return language === 'en'
-        ? '3-Min Daily Routine'
+        ? '3-Min Routine'
         : language === 'ja'
-        ? '3分デイリールーティン'
+        ? '3分ルーティン'
         : language === 'zh'
-        ? '3分钟每日训练'
+        ? '3分钟日常'
         : language === 'es'
-        ? 'Rutina diaria de 3 min'
+        ? 'Rutina de 3 min'
         : language === 'fr'
-        ? 'Routine quotidienne 3 min'
-        : '3분 데일리 루틴';
+        ? 'Routine 3 min'
+        : '3분 루틴';
     }
     if (s.type === 'gabor_stage') {
       return language === 'en'

@@ -260,16 +260,16 @@ export default function App() {
                 <ShieldCheck className="w-4 h-4 text-teal-700" />
                 <span>
                   {preferences.language === 'en'
-                    ? 'Why is 3-minute Gabor training effective?'
+                    ? 'Why is the 3-minute Gabor routine effective?'
                     : preferences.language === 'ja'
-                    ? 'なぜ1日3分のガボール訓練が効果的なのか？'
+                    ? 'なぜ1日3分のガボールルーティンが効果的なのか？'
                     : preferences.language === 'zh'
-                    ? '为什么每天3分钟卡博尔训练如此有效？'
+                    ? '为什么每日3分钟伽博训练如此有效？'
                     : preferences.language === 'es'
-                    ? '¿Por qué es tan eficaz el entrenamiento Gabor de 3 minutos?'
+                    ? '¿Por qué es tan eficaz la rutina Gabor de 3 minutos?'
                     : preferences.language === 'fr'
-                    ? 'Pourquoi l’entraînement Gabor de 3 min est-il si efficace ?'
-                    : '왜 하루 3분 가보르 훈련이 효과적인가요?'}
+                    ? 'Pourquoi la routine Gabor de 3 min est-elle si efficace ?'
+                    : '왜 하루 3분 루틴이 효과적인가요?'}
                 </span>
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
@@ -278,7 +278,7 @@ export default function App() {
                   : preferences.language === 'ja'
                   ? '眼科専門医・平松類医師の臨床およびUCバークレー校の視覚研究によると、ガボールパッチを1日3分継続することで、脳の視覚野の神経可塑性が刺激され、老眼や近視の見えにくさが有意に改善されます。'
                   : preferences.language === 'zh'
-                  ? '根据眼科临床与加州大学伯克利分校视觉科学研究，每天坚持3分钟卡博尔斑训练，可促进大脑视觉皮层边缘模糊重构的神经可塑性，显著改善老花眼和青少年近视的清晰度。'
+                  ? '根据眼科临床与加州大学伯克利分校视觉科学研究，每天坚持3分钟伽博斑块训练，可促进大脑视觉皮层边缘模糊重构的神经可塑性，显著改善老花眼和青少年近视的清晰度。'
                   : preferences.language === 'es'
                   ? 'Según investigaciones clínicas y de la Universidad de Berkeley, practicar con parches de Gabor 3 minutos al día activa la neuroplasticidad del córtex visual, mejorando significativamente la nitidez cerebral en presbicia y fatiga ocular.'
                   : preferences.language === 'fr'

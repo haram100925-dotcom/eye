@@ -68,6 +68,18 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
       ? 'Google Play'
       : 'Play 스토어'
     : t.navbar.installApp;
+  const brandTitle =
+    language === 'en'
+      ? 'Presbyopia'
+      : language === 'ja'
+      ? '老眼防止'
+      : language === 'zh'
+      ? '老花眼防护'
+      : language === 'es'
+      ? 'Presbicia'
+      : language === 'fr'
+      ? 'Presbytie'
+      : '노안방지';
   const [showLangMenu, setShowLangMenu] = useState(false);
   return (
     <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 py-2.5 transition-colors duration-200">
@@ -83,13 +95,12 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
         >
           <img
             src="./pwa-192x192.png"
-            alt={t.appName}
+            alt={brandTitle}
             className="w-8 h-8 rounded-full object-contain shrink-0"
           />
-          <div className="flex flex-col leading-none">
-            <span className="font-bold text-slate-900 text-sm sm:text-base">{t.appName}</span>
-            <span className="text-[10px] text-teal-700 font-medium tracking-tight">{t.appSubtitle}</span>
-          </div>
+          <span className="font-bold text-slate-900 text-sm sm:text-base whitespace-nowrap">
+            {brandTitle}
+          </span>
         </a>
 
         {/* Zone 2: Clean text navigation links for desktop / tablet */}
