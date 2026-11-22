@@ -19,8 +19,8 @@ export default defineConfig(() => {
           short_name: '눈건강 3분',
           description:
             '하루 3분 가보르 패치와 입체시 훈련으로 노안과 청소년 근시를 케어하는 맞춤형 시력 회복 및 눈 건강 트래킹 앱',
-          theme_color: '#0f766e',
-          background_color: '#0b1120',
+          theme_color: '#000000',
+          background_color: '#000000',
           display: 'standalone',
           orientation: 'portrait',
           start_url: './',

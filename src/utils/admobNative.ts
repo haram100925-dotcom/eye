@@ -39,6 +39,18 @@ export function isAndroidNative(): boolean {
   }
 }
 
+export function isDevEnvironment(): boolean {
+  if (typeof window === 'undefined') return Boolean(import.meta.env.DEV);
+  if (isNativeApp()) return false;
+  const host = window.location.hostname || '';
+  return (
+    Boolean(import.meta.env.DEV) ||
+    host.includes('ais-dev-') ||
+    host.includes('ais-pre-') ||
+    host.includes('aistudio.google.com')
+  );
+}
+
 export async function prepareNativeInterstitial(): Promise<void> {
   if (!isNativeApp() || isPreparingInterstitial || interstitialReady) {
     return;

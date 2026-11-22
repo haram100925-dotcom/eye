@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">노안방지 - 눈건강 3분</string>
-    <string name="title_activity_main">노안방지 - 눈건강 3분</string>
+    <string name="app_name">Gabor Eye 3Min</string>
+    <string name="title_activity_main">Gabor Eye 3Min</string>
     <string name="package_name">com.cronya.eye_training</string>
     <string name="custom_url_scheme">com.cronya.eye_training</string>
 </resources>

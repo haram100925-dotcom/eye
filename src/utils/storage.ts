@@ -1,10 +1,95 @@
 import {
+  AppLanguage,
   StageConfig,
   TrainingSessionRecord,
   UserPreferences,
   VisionTestRecord,
   ReminderConfig,
 } from '../types';
+
+const SUPPORTED_LANGUAGES: AppLanguage[] = ['ko', 'en', 'ja', 'zh', 'es', 'fr'];
+
+function mapLocaleToAppLanguage(locale: string): AppLanguage | null {
+  const lower = locale.toLowerCase().trim();
+  if (lower.startsWith('ko')) return 'ko';
+  if (lower.startsWith('ja')) return 'ja';
+  if (lower.startsWith('zh')) return 'zh';
+  if (lower.startsWith('es')) return 'es';
+  if (lower.startsWith('fr')) return 'fr';
+  if (lower.startsWith('en')) return 'en';
+  return null;
+}
+
+/**
+ * Automatically detects the user's region/store language from URL (?lang=),
+ * device/browser preferred languages (reflects Google Play / iOS / OS locale),
+ * and timezone fallback, defaulting globally to 'en' for non-matched regions.
+ */
+export function detectDefaultLanguage(): AppLanguage {
+  if (typeof window === 'undefined') return 'ko';
+
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const paramLang = params.get('lang')?.toLowerCase() as AppLanguage | undefined;
+    if (paramLang && SUPPORTED_LANGUAGES.includes(paramLang)) {
+      return paramLang;
+    }
+  } catch {
+    // Ignore URL parse error
+  }
+
+  try {
+    const locales: string[] = [];
+    if (Array.isArray(navigator.languages)) {
+      locales.push(...navigator.languages);
+    }
+    if (navigator.language) {
+      locales.push(navigator.language);
+    }
+    for (const loc of locales) {
+      const mapped = mapLocaleToAppLanguage(loc);
+      if (mapped) return mapped;
+    }
+  } catch {
+    // Ignore navigator locale error
+  }
+
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    if (tz === 'Asia/Seoul') return 'ko';
+    if (tz === 'Asia/Tokyo') return 'ja';
+    if (
+      tz === 'Asia/Shanghai' ||
+      tz === 'Asia/Taipei' ||
+      tz === 'Asia/Hong_Kong' ||
+      tz === 'Asia/Macau' ||
+      tz === 'Asia/Chongqing'
+    ) {
+      return 'zh';
+    }
+    if (
+      tz === 'Europe/Madrid' ||
+      tz === 'America/Mexico_City' ||
+      tz === 'America/Bogota' ||
+      tz === 'America/Argentina/Buenos_Aires' ||
+      tz === 'America/Lima' ||
+      tz === 'America/Santiago'
+    ) {
+      return 'es';
+    }
+    if (
+      tz === 'Europe/Paris' ||
+      tz === 'Europe/Brussels' ||
+      tz === 'Africa/Casablanca'
+    ) {
+      return 'fr';
+    }
+  } catch {
+    // Ignore timezone error
+  }
+
+  return 'en';
+}
 
 export const STAGES_CONFIG: StageConfig[] = [
   {
@@ -150,6 +235,7 @@ export const STAGES_CONFIG: StageConfig[] = [
 ];
 
 const PREFS_KEY = 'eye_training_preferences';
+const V2_BLACK_DEFAULT_KEY = 'eye_training_v2_black_default';
 const SESSIONS_KEY = 'eye_training_sessions';
 const VISION_KEY = 'eye_training_vision_tests';
 const UNLOCKED_LEVEL_KEY = 'eye_training_unlocked_level';
@@ -158,10 +244,10 @@ const REMINDERS_KEY = 'eye_training_reminders';
 export const defaultPreferences: UserPreferences = {
   targetGroup: 'presbyopia', // Default for middle-aged / senior users or customizable
   fontSize: 'large',
-  language: 'ko',
+  language: detectDefaultLanguage(),
   warmFilter: true,
   highContrast: false,
-  nightMode: false,
+  nightMode: true,
   voiceGuide: true,
   voicePersona: 'seohyun', // Default to Seohyun's voice
   voiceSpeed: 0.95, // Calm, clear tempo
@@ -178,22 +264,40 @@ export const defaultReminders: ReminderConfig = {
 };
 
 export function loadPreferences(): UserPreferences {
+  const autoLang = detectDefaultLanguage();
   try {
     const raw = localStorage.getItem(PREFS_KEY);
+    const hasMigratedBlack = localStorage.getItem(V2_BLACK_DEFAULT_KEY) === '1';
+
     if (raw) {
       const parsed = JSON.parse(raw);
-      return {
+      const merged: UserPreferences = {
         ...defaultPreferences,
         ...parsed,
-        language: parsed.language || 'ko',
+        language: parsed.language || autoLang,
         voicePersona: parsed.voicePersona || 'seohyun',
         voiceSpeed: parsed.voiceSpeed || 0.95,
       };
+      // One-time migration so default evening black mode takes effect cleanly on update
+      if (!hasMigratedBlack) {
+        merged.nightMode = true;
+        localStorage.setItem(V2_BLACK_DEFAULT_KEY, '1');
+        localStorage.setItem(PREFS_KEY, JSON.stringify(merged));
+      }
+      return merged;
+    }
+
+    if (!hasMigratedBlack) {
+      localStorage.setItem(V2_BLACK_DEFAULT_KEY, '1');
     }
   } catch (e) {
     console.error('Failed to load preferences', e);
   }
-  return defaultPreferences;
+  return {
+    ...defaultPreferences,
+    language: autoLang,
+    nightMode: true,
+  };
 }
 
 export function savePreferences(prefs: UserPreferences): void {

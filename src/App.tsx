@@ -26,6 +26,7 @@ import { OfflineBanner } from './components/OfflineBanner';
 import { usePWAInstall } from './hooks/usePWAInstall';
 import {
   isNativeApp,
+  isDevEnvironment,
   initNativeAdMob,
   showNativeInterstitial,
   PLAY_STORE_URL,
@@ -63,6 +64,7 @@ export default function App() {
   const [adTriggerReason, setAdTriggerReason] = useState<'startup' | 'completion'>('startup');
   const [nativeBannerHeight, setNativeBannerHeight] = useState<number>(0);
   const isNative = isNativeApp();
+  const showDevGuide = isDevEnvironment();
 
   // Initialize native AdMob (banner + preloaded interstitial) in Capacitor Android app,
   // or trigger web startup ad overlay on web browsers
@@ -116,6 +118,16 @@ export default function App() {
     const sessions = loadSessions();
     setStreakCount(calculateStreak(sessions));
   }, [refreshKey]);
+
+  // Keep <html lang> and page title aligned with detected/selected language
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const activeLang = preferences.language || 'ko';
+      document.documentElement.lang = activeLang;
+      const localized = getTranslation(activeLang);
+      document.title = `${localized.appName} - ${localized.appSubtitle}`;
+    }
+  }, [preferences.language]);
 
   const handleSelectTab = (newTab: ActiveTab) => {
     if (newTab === activeTab) return;
@@ -185,8 +197,8 @@ export default function App() {
 
   return (
     <div
-      className={`min-h-screen flex flex-col bg-slate-50 text-slate-800 transition-colors duration-200 ${
-        preferences.nightMode ? 'night-mode' : ''
+      className={`min-h-screen flex flex-col transition-colors duration-200 ${
+        preferences.nightMode ? 'night-mode bg-black text-zinc-100' : 'bg-slate-50 text-slate-800'
       } ${preferences.warmFilter ? 'warm-tint' : ''} ${preferences.highContrast ? 'high-contrast' : ''} ${fontSizeClass}`}
     >
       {/* 1. Header Bar following Top Bar Contract */}
@@ -200,7 +212,7 @@ export default function App() {
         onToggleNightMode={handleToggleNightMode}
         onOpenInstall={openInstallModal}
         onOpenShare={() => setIsShareOpen(true)}
-        onOpenStoreSEO={() => setIsStoreSEOOpen(true)}
+        onOpenStoreSEO={showDevGuide ? () => setIsStoreSEOOpen(true) : undefined}
         isInstalled={isInstalled}
         isAndroidWeb={isAndroidWeb}
         language={preferences.language || 'ko'}
@@ -389,7 +401,7 @@ export default function App() {
         preferences={preferences}
         onUpdatePreferences={(newPrefs) => setPreferences(newPrefs)}
         onOpenInstall={openInstallModal}
-        onOpenStoreSEO={() => setIsStoreSEOOpen(true)}
+        onOpenStoreSEO={showDevGuide ? () => setIsStoreSEOOpen(true) : undefined}
         isInstalled={isInstalled}
         isAndroidWeb={isAndroidWeb}
       />
@@ -401,12 +413,14 @@ export default function App() {
         sharedUrl={sharedUrl}
       />
 
-      {/* Store & SEO Guide Modal */}
-      <StoreSEOGuideModal
-        isOpen={isStoreSEOOpen}
-        onClose={() => setIsStoreSEOOpen(false)}
-        siteUrl={sharedUrl}
-      />
+      {/* Store & SEO Guide Modal (AI Studio / Dev Environment Only) */}
+      {showDevGuide && (
+        <StoreSEOGuideModal
+          isOpen={isStoreSEOOpen}
+          onClose={() => setIsStoreSEOOpen(false)}
+          siteUrl={sharedUrl}
+        />
+      )}
 
       {/* Platform-Aware Install Modal: Play Store for Android Web, PWA for iOS */}
       <PWAInstallModal
