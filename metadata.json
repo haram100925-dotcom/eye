@@ -1,0 +1,8 @@
+{
+  "name": "노안방지 앱 : Daily Vision Training",
+  "description": "Improve vision with AI-generated eye exercises, personalized tracking, and daily reminders led by a friendly mascot for all ages.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

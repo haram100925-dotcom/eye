@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+
+/* Eye comfort warm tint mode */
+.warm-tint {
+  filter: sepia(0.12) brightness(0.98);
+}
+
+/* High contrast mode for elderly users */
+.high-contrast {
+  contrast: 1.15;
+}
+
+/* Evening Night Mode Theme (anti-glare dark blues and deep slate grays) */
+.night-mode {
+  background-color: #0b1120 !important;
+  color: #e2e8f0 !important;
+}
+
+.night-mode header {
+  background-color: rgba(15, 23, 42, 0.92) !important;
+  border-color: #1e293b !important;
+}
+
+.night-mode .bg-white {
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
+  border-color: #1e293b !important;
+}
+
+.night-mode .bg-slate-50,
+.night-mode .bg-slate-50\/70,
+.night-mode .bg-slate-50\/80 {
+  background-color: #162032 !important;
+  border-color: #1e293b !important;
+}
+
+.night-mode .bg-slate-100,
+.night-mode .bg-slate-100\/70 {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+.night-mode .bg-teal-50,
+.night-mode .bg-teal-50\/60,
+.night-mode .bg-teal-50\/70,
+.night-mode .bg-teal-50\/80 {
+  background-color: #0d2830 !important;
+  border-color: #134e4a !important;
+}
+
+.night-mode .bg-amber-50,
+.night-mode .bg-amber-50\/70,
+.night-mode .bg-amber-50\/80 {
+  background-color: #261e14 !important;
+  border-color: #78350f !important;
+}
+
+.night-mode .text-slate-900,
+.night-mode .text-slate-800 {
+  color: #f1f5f9 !important;
+}
+
+.night-mode .text-slate-700,
+.night-mode .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+.night-mode .text-slate-500,
+.night-mode .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+.night-mode .text-teal-900,
+.night-mode .text-teal-800 {
+  color: #5eead4 !important;
+}
+
+.night-mode .text-teal-700 {
+  color: #2dd4bf !important;
+}
+
+.night-mode .text-amber-900,
+.night-mode .text-amber-800 {
+  color: #fcd34d !important;
+}
+
+.night-mode .border-slate-100,
+.night-mode .border-slate-200,
+.night-mode .border-slate-200\/60,
+.night-mode .border-slate-200\/80 {
+  border-color: #1e293b !important;
+}
+
+.night-mode .border-teal-100,
+.night-mode .border-teal-200,
+.night-mode .border-teal-500\/30 {
+  border-color: #134e4a !important;
+}
+
+.night-mode input[type="range"] {
+  background-color: #1e293b !important;
+}
+
+.night-mode .bottom-tab-bar {
+  background-color: rgba(15, 23, 42, 0.96) !important;
+  border-color: #1e293b !important;
+}
