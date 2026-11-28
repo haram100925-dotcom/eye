@@ -13,8 +13,8 @@ app.use(
   express.static(path.join(__dirname, 'dist'), {
     maxAge: '1d',
     setHeaders: (res, filePath) => {
-      // Service worker and manifest should not be cached aggressively
-      if (filePath.endsWith('sw.js') || filePath.endsWith('manifest.webmanifest')) {
+      // HTML, service worker and manifest should not be cached aggressively
+      if (filePath.endsWith('index.html') || filePath.endsWith('sw.js') || filePath.endsWith('manifest.webmanifest')) {
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       }
     },
