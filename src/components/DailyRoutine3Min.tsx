@@ -18,7 +18,7 @@ import { audioGuide } from '../utils/audioGuide';
 import { addSession } from '../utils/storage';
 import { TargetGroup, TrainingSessionRecord, AppLanguage } from '../types';
 import { getTranslation } from '../utils/i18n';
-import { GuidedEyeStretchStage } from './GuidedEyeStretchStage';
+import { GuidedEyeStretchStage, ROUTINE_STRETCH_EXERCISES } from './GuidedEyeStretchStage';
 
 interface DailyRoutineProps {
   targetGroup: TargetGroup;
@@ -950,11 +950,11 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
         </div>
       )}
 
-      {/* SCREEN 4: GUIDED EYE STRETCHING (60s Finale: Left-Right, Up-Down, Infinity, Circle, Blink) */}
+      {/* SCREEN 4: GUIDED EYE STRETCHING (60s Finale: 4 Gaze Moves x 15s = 60s) */}
       {currentStep === 'stretching' && (() => {
         const stretchElapsed = Math.max(0, Math.min(59, 60 - secondsRemaining));
-        const stretchExerciseIdx = Math.floor(stretchElapsed / 12);
-        const stretchExSecsLeft = 12 - (stretchElapsed % 12);
+        const stretchExerciseIdx = Math.floor(stretchElapsed / 15);
+        const stretchExSecsLeft = 15 - (stretchElapsed % 15);
 
         return (
           <div className="space-y-3 animate-in fade-in duration-200">
@@ -965,6 +965,7 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
               language={language}
               announceOnExerciseChange
               compact
+              exercises={ROUTINE_STRETCH_EXERCISES}
             />
           </div>
         );

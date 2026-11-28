@@ -65,12 +65,12 @@ export const EyeStretchingStudio: React.FC<EyeStretchingStudioProps> = ({
       setPhaseState('completed');
 
       const donePhrases: Record<AppLanguage, string> = {
-        ko: '눈 스트레칭이 완료되었습니다! 눈 근육과 눈물막이 한결 부드러워졌어요.',
-        en: 'Eye stretching complete! Your eye muscles and tear film feel refreshed.',
-        ja: '目のストレッチが完了しました！目の筋肉がすっきりほぐれました。',
-        zh: '眼部拉伸完成！眼部肌肉与泪膜已得到充分舒缓。',
-        es: '¡Estiramiento ocular completado! Sus músculos oculares están descansados.',
-        fr: 'Étirement oculaire terminé ! Vos muscles oculaires sont détendus.',
+        ko: '눈 스트레칭이 완료되었습니다! 눈 근육과 초점 조절 기능이 한결 부드러워졌어요.',
+        en: 'Eye stretching complete! Your eye muscles and focusing flexibility feel refreshed.',
+        ja: '目のストレッチが完了しました！目の筋肉とピント調節がすっきりほぐれました。',
+        zh: '眼部拉伸完成！眼部肌肉与调焦能力已得到充分舒缓。',
+        es: '¡Estiramiento ocular completado! Sus músculos oculares y enfoque están descansados.',
+        fr: 'Étirement oculaire terminé ! Vos muscles oculaires et votre mise au point sont détendus.',
       };
       audioGuide.speak(donePhrases[language] || donePhrases.ko, undefined, undefined, language);
 

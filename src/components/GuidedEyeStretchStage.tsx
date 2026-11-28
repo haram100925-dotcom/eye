@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Eye, MoveHorizontal, MoveVertical, Infinity as InfinityIcon, RotateCw, Sparkles } from 'lucide-react';
+import { Focus, MoveHorizontal, MoveVertical, Infinity as InfinityIcon, RotateCw, Sparkles } from 'lucide-react';
 import { AppLanguage } from '../types';
 import { audioGuide } from '../utils/audioGuide';
 
-export type StretchExerciseId = 'horizontal' | 'vertical' | 'infinity' | 'circle' | 'blink';
+export type StretchExerciseId = 'horizontal' | 'vertical' | 'infinity' | 'circle' | 'accommodation';
 
 export interface StretchExerciseMeta {
   id: StretchExerciseId;
@@ -193,50 +193,55 @@ export const STRETCH_EXERCISES: StretchExerciseMeta[] = [
     },
   },
   {
-    id: 'blink',
+    id: 'accommodation',
     durationSec: 12,
     title: {
-      ko: '리듬 눈 깜빡임 & 이완',
-      en: 'Rhythmic Blink & Relax',
-      ja: 'リズムまばたき＆保湿',
-      zh: '节律眨眼与润眼放松',
-      es: 'Parpadeo Rítmico y Relax',
-      fr: 'Clignement Rythmé & Détente',
+      ko: '원근 초점 링 스트레칭',
+      en: 'Far-Near Breathing Ring',
+      ja: '遠近ピント調節リング',
+      zh: '远近呼吸调焦圆环',
+      es: 'Anillo de Enfoque Cerca-Lejos',
+      fr: 'Anneau de Mise au Point Près-Loin',
     },
     shortLabel: {
-      ko: '눈 깜빡임',
-      en: 'Blink',
-      ja: 'まばたき',
-      zh: '眨眼保湿',
-      es: 'Parpadeo',
-      fr: 'Clignement',
+      ko: '원근 조절',
+      en: 'Far-Near',
+      ja: '遠近調節',
+      zh: '远近调焦',
+      es: 'Cerca-Lejos',
+      fr: 'Près-Loin',
     },
     instruction: {
-      ko: '중앙 아이콘이 닫힐 때 1초간 지그시 눈을 감았다가 편하게 떠서 눈물막을 적셔주세요.',
-      en: 'When the center ring closes, gently squeeze shut for 1 second, then open softly.',
-      ja: '中央の目のアイコンに合わせて1秒間ぎゅっと閉じ、優しく開いて潤いを保ちます。',
-      zh: '配合中央图标闭合轻闭双眼1秒，再自然睁开以滋润泪膜。',
-      es: 'Cuando el icono se cierre, apriete suavemente 1 segundo y abra con calma.',
-      fr: 'Lorsque l’anneau se ferme, fermez doucement 1 seconde puis ouvrez.',
+      ko: '중앙 원이 커지고 작아지는 리듬에 맞춰 먼 곳을 보듯 이완했다가 가까이 집중하세요.',
+      en: 'Follow the expanding and contracting ring—relax as it grows and focus softly as it shrinks.',
+      ja: '中央のリングが大きく・小さくなる動きに合わせて、遠くを見るように緩めてから近くに焦点を合わせます。',
+      zh: '跟随中央圆环放大与缩小的节奏，放大时如望远方般放松，缩小时轻柔聚焦。',
+      es: 'Siga el anillo que se expande y contrae: relaje al crecer y enfoque suavemente al reducirse.',
+      fr: 'Suivez l’anneau qui s’élargit et rétrécit : détendez-vous en grandissant et concentrez-vous en rétrécissant.',
     },
     voicePrompt: {
-      ko: '마지막 눈 깜빡임 이완입니다. 중앙 리듬에 맞춰 지그시 감았다가 부드럽게 떠주세요.',
-      en: 'Rhythmic blinking relaxation. Close gently with the beat and open softly.',
-      ja: '最後はリズムまばたきです。中央の動きに合わせて優しく閉じたり開いたりしましょう。',
-      zh: '最后是节律眨眼放松。请配合中央节奏轻柔闭眼再睁开。',
-      es: 'Parpadeo rítmico final. Cierre y abra los ojos suavemente al ritmo.',
-      fr: 'Clignement rythmé final. Fermez et ouvrez doucement les yeux au rythme.',
+      ko: '마지막 원근 조절 스트레칭입니다. 화면 중앙의 원이 커지고 작아지는 움직임을 눈동자로 편안하게 따라가세요.',
+      en: 'Final far-near focus stretch. Comfortably follow the expanding and contracting ring at the center.',
+      ja: '最後は遠近ピント調節ストレッチです。中央のリングが大きく・小さくなる動きを楽に見つめてください。',
+      zh: '最后是远近调焦拉伸。请轻松注视屏幕中央圆环放大和缩小的律动。',
+      es: 'Último estiramiento de enfoque cercano y lejano. Siga suavemente el anillo que crece y se encoge.',
+      fr: 'Dernier étirement près-loin. Suivez confortablement l’anneau qui s’élargit et rétrécit.',
     },
     muscleFocus: {
-      ko: '마이봄샘 자극 · 안구 건조 완화',
-      en: 'Tear Film & Dry-Eye Relief',
-      ja: '涙膜循環・ドライアイケア',
-      zh: '促进泪液循环缓解干涩',
-      es: 'Hidratación lagrimal',
-      fr: 'Hydratation du film lacrymal',
+      ko: '모양체근 원근 이완 · 초점 유연화',
+      en: 'Ciliary Muscle & Focus Relief',
+      ja: '毛様体筋リラックス・ピント調整',
+      zh: '睫状肌远近放松·调焦舒缓',
+      es: 'Relajación del músculo ciliar',
+      fr: 'Détente du muscle ciliaire',
     },
   },
 ];
+
+export const ROUTINE_STRETCH_EXERCISES: StretchExerciseMeta[] = STRETCH_EXERCISES.slice(0, 4).map((ex) => ({
+  ...ex,
+  durationSec: 15,
+}));
 
 interface GuidedEyeStretchStageProps {
   exerciseIndex: number;
@@ -246,6 +251,7 @@ interface GuidedEyeStretchStageProps {
   voiceEnabled?: boolean;
   announceOnExerciseChange?: boolean;
   compact?: boolean;
+  exercises?: StretchExerciseMeta[];
 }
 
 export const GuidedEyeStretchStage: React.FC<GuidedEyeStretchStageProps> = ({
@@ -255,9 +261,12 @@ export const GuidedEyeStretchStage: React.FC<GuidedEyeStretchStageProps> = ({
   language,
   announceOnExerciseChange = true,
   compact = false,
+  exercises = STRETCH_EXERCISES,
 }) => {
-  const safeIndex = ((exerciseIndex % STRETCH_EXERCISES.length) + STRETCH_EXERCISES.length) % STRETCH_EXERCISES.length;
-  const currentExercise = STRETCH_EXERCISES[safeIndex];
+  const activeExercises = exercises.length > 0 ? exercises : STRETCH_EXERCISES;
+  const safeIndex = ((exerciseIndex % activeExercises.length) + activeExercises.length) % activeExercises.length;
+  const currentExercise = activeExercises[safeIndex];
+  const halfDuration = Math.floor(currentExercise.durationSec / 2);
   const [phase, setPhase] = useState<number>(0);
   const lastAnnouncedRef = useRef<string | null>(null);
   const animRef = useRef<number | null>(null);
@@ -288,7 +297,7 @@ export const GuidedEyeStretchStage: React.FC<GuidedEyeStretchStageProps> = ({
     }
   }, [isActive]);
 
-  // Smooth 60fps compositor loop for target trajectory & blink cadence
+  // Smooth 60fps compositor loop for target trajectory & accommodation breathing cadence
   useEffect(() => {
     if (!isActive || prefersReducedMotion) return;
     let lastTime = performance.now();
@@ -304,44 +313,43 @@ export const GuidedEyeStretchStage: React.FC<GuidedEyeStretchStageProps> = ({
     };
   }, [isActive, prefersReducedMotion]);
 
-  // Calculate normalized (-1 to 1) target offset based on active exercise
+  // Calculate normalized (-1 to 1) target offset or accommodation focus progress (0..100)
   const targetPos = useMemo(() => {
     if (prefersReducedMotion || !isActive) {
-      return { x: 0, y: 0, blinkClosed: false };
+      return { x: 0, y: 0, focusProgress: 50 };
     }
 
     switch (currentExercise.id) {
       case 'horizontal': {
         const x = Math.sin(phase * 1.55);
-        return { x, y: 0, blinkClosed: false };
+        return { x, y: 0, focusProgress: 50 };
       }
       case 'vertical': {
         const y = Math.sin(phase * 1.55);
-        return { x: 0, y, blinkClosed: false };
+        return { x: 0, y, focusProgress: 50 };
       }
       case 'infinity': {
         // Lemniscate / figure-eight curve across full field
         const t = phase * 1.35;
         const x = Math.sin(t);
         const y = Math.sin(2 * t) * 0.72;
-        return { x, y, blinkClosed: false };
+        return { x, y, focusProgress: 50 };
       }
       case 'circle': {
-        // Reverse direction halfway through the 12s window
-        const dir = exerciseSecondsLeft > 6 ? 1 : -1;
+        // Reverse direction halfway through the exercise window
+        const dir = exerciseSecondsLeft > halfDuration ? 1 : -1;
         const t = phase * 1.45 * dir;
-        return { x: Math.cos(t), y: Math.sin(t), blinkClosed: false };
+        return { x: Math.cos(t), y: Math.sin(t), focusProgress: 50 };
       }
-      case 'blink': {
-        // 3-second cycle: open 1.9s, gentle squeeze shut 1.1s
-        const cycle = (phase * 0.65) % 1;
-        const blinkClosed = cycle > 0.63;
-        return { x: 0, y: 0, blinkClosed };
+      case 'accommodation': {
+        // Smooth oscillation matching 3-min routine's far-near breathing ring (0..100)
+        const focusProgress = (Math.sin(phase * 1.45) + 1) * 50;
+        return { x: 0, y: 0, focusProgress };
       }
       default:
-        return { x: 0, y: 0, blinkClosed: false };
+        return { x: 0, y: 0, focusProgress: 50 };
     }
-  }, [currentExercise.id, phase, exerciseSecondsLeft, isActive, prefersReducedMotion]);
+  }, [currentExercise.id, phase, exerciseSecondsLeft, halfDuration, isActive, prefersReducedMotion]);
 
   const ExerciseIcon =
     currentExercise.id === 'horizontal'
@@ -352,7 +360,7 @@ export const GuidedEyeStretchStage: React.FC<GuidedEyeStretchStageProps> = ({
       ? InfinityIcon
       : currentExercise.id === 'circle'
       ? RotateCw
-      : Eye;
+      : Focus;
 
   // Convert normalized (-1..1) to pixel offsets inside track box
   const maxOffsetX = compact ? 102 : 124;
@@ -360,31 +368,31 @@ export const GuidedEyeStretchStage: React.FC<GuidedEyeStretchStageProps> = ({
   const translateX = targetPos.x * maxOffsetX;
   const translateY = targetPos.y * maxOffsetY;
 
-  const blinkCloseLabel =
+  const farRelaxLabel =
     language === 'en'
-      ? 'Close eyes gently (1s)'
+      ? '● Relax as if looking far away'
       : language === 'ja'
-      ? '目を優しく閉じて (1秒)'
+      ? '● 遠くを見るようにリラックス'
       : language === 'zh'
-      ? '轻闭双眼 (1秒)'
+      ? '● 如眺望远方般放松'
       : language === 'es'
-      ? 'Cierre suave (1s)'
+      ? '● Relájese como si mirara a lo lejos'
       : language === 'fr'
-      ? 'Fermez doucement (1s)'
-      : '지그시 눈 감기 (1초)';
+      ? '● Détendez-vous comme au loin'
+      : '● 먼 곳을 바라보듯 이완';
 
-  const blinkOpenLabel =
+  const nearFocusLabel =
     language === 'en'
-      ? 'Open softly & breathe'
+      ? '○ Focus gently on the center'
       : language === 'ja'
-      ? '優しく開いてリラックス'
+      ? '○ 近くに意識を集中'
       : language === 'zh'
-      ? '自然睁开保持湿润'
+      ? '○ 聚焦近处目标'
       : language === 'es'
-      ? 'Abra suavemente'
+      ? '○ Enfoque suavemente cerca'
       : language === 'fr'
-      ? 'Ouvrez doucement'
-      : '편안하게 눈 뜨기';
+      ? '○ Concentrez-vous doucement'
+      : '○ 가까운 곳에 집중';
 
   return (
     <div className="space-y-3">
@@ -466,46 +474,54 @@ export const GuidedEyeStretchStage: React.FC<GuidedEyeStretchStageProps> = ({
               strokeDasharray="6 6"
             />
           )}
-          {currentExercise.id === 'blink' && (
-            <circle
-              cx="160"
-              cy="110"
-              r="68"
-              fill="none"
-              stroke="#fbbf24"
-              strokeWidth="1.5"
-              strokeDasharray="5 5"
-            />
+          {currentExercise.id === 'accommodation' && (
+            <>
+              <circle
+                cx="160"
+                cy="110"
+                r="76"
+                fill="none"
+                stroke="#2dd4bf"
+                strokeWidth="1.5"
+                strokeDasharray="5 5"
+              />
+              <circle
+                cx="160"
+                cy="110"
+                r="26"
+                fill="none"
+                stroke="#2dd4bf"
+                strokeWidth="1"
+                strokeDasharray="3 4"
+              />
+            </>
           )}
         </svg>
 
         {/* Center anchor crosshair (very subtle) */}
         <div className="w-2 h-2 rounded-full bg-slate-700/80 pointer-events-none" />
 
-        {/* Gaze Target or Blink Guide */}
-        {currentExercise.id === 'blink' ? (
-          <div className="relative z-10 flex flex-col items-center gap-3 text-center px-4">
+        {/* Gaze Target or Expanding/Contracting Accommodation Ring */}
+        {currentExercise.id === 'accommodation' ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center pb-8 pointer-events-none">
             <div
-              className={`w-28 h-28 rounded-full flex items-center justify-center transition-transform duration-300 border-2 ${
-                targetPos.blinkClosed
-                  ? 'scale-90 bg-amber-500/20 border-amber-400 text-amber-300'
-                  : 'scale-105 bg-teal-500/15 border-teal-400 text-teal-300'
-              }`}
+              className="rounded-full border-4 border-teal-400 flex items-center justify-center transition-all duration-75 shadow-[0_0_30px_rgba(45,212,191,0.5)]"
+              style={{
+                width: `${(compact ? 52 : 58) + targetPos.focusProgress * (compact ? 1.05 : 1.25)}px`,
+                height: `${(compact ? 52 : 58) + targetPos.focusProgress * (compact ? 1.05 : 1.25)}px`,
+              }}
             >
-              <div className="relative flex flex-col items-center">
-                {targetPos.blinkClosed ? (
-                  <div className="w-12 h-1.5 rounded-full bg-amber-300 shadow-[0_0_16px_rgba(252,211,77,0.7)]" />
-                ) : (
-                  <Eye className="w-12 h-12 stroke-[1.8]" />
-                )}
-              </div>
+              <div
+                className="rounded-full bg-teal-300 transition-all duration-75"
+                style={{
+                  width: `${14 + targetPos.focusProgress * 0.36}px`,
+                  height: `${14 + targetPos.focusProgress * 0.36}px`,
+                }}
+              />
             </div>
-            <span
-              className={`text-sm font-bold tracking-tight ${
-                targetPos.blinkClosed ? 'text-amber-300' : 'text-teal-300'
-              }`}
-            >
-              {targetPos.blinkClosed ? blinkCloseLabel : blinkOpenLabel}
+
+            <span className="mt-2.5 text-xs font-mono text-teal-300 tracking-tight">
+              {targetPos.focusProgress > 50 ? farRelaxLabel : nearFocusLabel}
             </span>
           </div>
         ) : (
@@ -528,7 +544,7 @@ export const GuidedEyeStretchStage: React.FC<GuidedEyeStretchStageProps> = ({
         {/* Corner direction hint */}
         {currentExercise.id === 'circle' && (
           <div className="absolute top-3 right-3 text-[11px] font-medium text-teal-300/90 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800">
-            {exerciseSecondsLeft > 6
+            {exerciseSecondsLeft > halfDuration
               ? language === 'en'
                 ? '↻ Clockwise'
                 : language === 'ja'
@@ -564,8 +580,8 @@ export const GuidedEyeStretchStage: React.FC<GuidedEyeStretchStageProps> = ({
       </div>
 
       {/* Exercise Step Indicators */}
-      <div className="grid grid-cols-5 gap-1.5">
-        {STRETCH_EXERCISES.map((ex, idx) => {
+      <div className={`grid gap-1.5 ${activeExercises.length === 4 ? 'grid-cols-4' : 'grid-cols-5'}`}>
+        {activeExercises.map((ex, idx) => {
           const isCurrent = idx === safeIndex;
           const isDone = idx < safeIndex;
           return (
