@@ -18,6 +18,7 @@ import { audioGuide } from '../utils/audioGuide';
 import { addSession } from '../utils/storage';
 import { TargetGroup, TrainingSessionRecord, AppLanguage } from '../types';
 import { getTranslation } from '../utils/i18n';
+import { GuidedEyeStretchStage } from './GuidedEyeStretchStage';
 
 interface DailyRoutineProps {
   targetGroup: TargetGroup;
@@ -26,7 +27,7 @@ interface DailyRoutineProps {
   language?: AppLanguage;
 }
 
-type RoutineStep = 'intro' | 'gabor' | 'accommodation' | 'completed';
+type RoutineStep = 'intro' | 'gabor' | 'accommodation' | 'stretching' | 'completed';
 
 const MATCH_COUNT = 3;
 const TOTAL_GRID_COUNT = 24;
@@ -55,7 +56,7 @@ const PROGRESSIVE_NEW_ANGLES: Record<number, number[]> = {
 
 function computeProgressiveTier(secsLeft: number, matches: number): number {
   const elapsed = Math.max(0, 180 - secsLeft);
-  const timeTier = elapsed >= 85 ? 4 : elapsed >= 55 ? 3 : elapsed >= 25 ? 2 : 1;
+  const timeTier = elapsed >= 68 ? 4 : elapsed >= 45 ? 3 : elapsed >= 22 ? 2 : 1;
   const matchTier = matches >= 6 ? 4 : matches >= 4 ? 3 : matches >= 2 ? 2 : 1;
   return Math.max(timeTier, matchTier);
 }
@@ -195,7 +196,7 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
     [ensureBoardHasIdenticalTriple]
   );
 
-  // Timer countdown
+  // Timer countdown (90s Gabor -> 30s Accommodation -> 60s Eye Stretching)
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
     if (isActive && secondsRemaining > 0) {
@@ -203,23 +204,26 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
         setSecondsRemaining((prev) => {
           const next = prev - 1;
 
-          // Transition to Step 2: accommodation exercise at 60s left
-          if (next === 60 && currentStep === 'gabor') {
+          // Transition to Step 2: 30s far-near accommodation at 90s left
+          if (next === 90 && currentStep === 'gabor') {
             setCurrentStep('accommodation');
             const accPhrases: Record<string, string> = {
-              ko: '잘하셨습니다! 이제 화면 중앙의 원근 조절 링을 따라 모양체근을 편안하게 이완하세요.',
-              en: 'Well done! Now follow the breathing ring in the center to relax your ciliary focusing muscles.',
-              ja: '素晴らしいです！画面中央のピント調整リングを見つめて、毛様体筋をリラックスさせましょう。',
-              zh: '做得很棒！现在请跟随屏幕中央的变焦环，放松眼部睫状肌。',
-              es: '¡Bien hecho! Ahora siga el anillo de enfoque central para relajar el músculo ciliar.',
-              fr: 'Bravo ! Suivez maintenant l’anneau de mise au point au centre pour détendre votre muscle ciliaire.',
+              ko: '잘하셨습니다! 이제 30초 동안 화면 중앙 원근 조절 링을 따라 눈 근육을 이완하세요.',
+              en: 'Well done! Now follow the breathing ring for 30 seconds to relax your focusing muscles.',
+              ja: '素晴らしいです！30秒間、画面中央のピント調整リングを見つめてリラックスしましょう。',
+              zh: '太棒了！现在请跟随中央变焦环凝视30秒，放松睫状肌。',
+              es: '¡Bien hecho! Siga el anillo de enfoque durante 30 segundos para relajar su vista.',
+              fr: 'Bravo ! Suivez l’anneau de mise au point pendant 30 secondes pour détendre vos yeux.',
             };
             audioGuide.speak(accPhrases[language] || accPhrases.ko, undefined, undefined, language);
           }
 
-          // Complete
-          if (next === 0) {
-            handleCompleteRoutine();
+          // Transition to Step 3: 60s guided eye stretching at 60s left
+          if (next === 60 && currentStep === 'accommodation') {
+            setCurrentStep('stretching');
+          }
+
+          if (next <= 0) {
             return 0;
           }
           return next;
@@ -231,6 +235,13 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
       if (interval) clearInterval(interval);
     };
   }, [isActive, secondsRemaining, currentStep, language]);
+
+  // Trigger completion safely with latest state when countdown reaches 0
+  useEffect(() => {
+    if (isActive && secondsRemaining === 0 && currentStep !== 'completed' && currentStep !== 'intro') {
+      handleCompleteRoutine();
+    }
+  });
 
   // Step 2 animation loop for accommodation ring
   useEffect(() => {
@@ -438,8 +449,17 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
     const newSelectedIds = [...selectedPatchIds, item.id];
 
     if (newSelectedIds.length === MATCH_COUNT) {
-      // MATCH SUCCESS (3 identical shapes matched!)
-      audioGuide.playSuccessChime();
+      // MATCH SUCCESS (3 identical shapes matched!) -> silent confetti burst
+      try {
+        confetti({
+          particleCount: 45,
+          spread: 65,
+          origin: { y: 0.62 },
+          colors: ['#0f766e', '#14b8a6', '#f59e0b', '#3b82f6'],
+        });
+      } catch {
+        // Confetti fallback
+      }
       const newCombo = comboCount + 1;
       const nextMatchTotal = gaborMatchesCount + 1;
       setComboCount(newCombo);
@@ -500,7 +520,6 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
   const handleCompleteRoutine = () => {
     setIsActive(false);
     setCurrentStep('completed');
-    audioGuide.playCelebrationFanfare();
     const completePhrases: Record<string, string> = {
       ko: '축하합니다! 오늘의 3분 루틴을 모두 완료하셨습니다.',
       en: 'Congratulations! You have completed today’s 3-minute routine.',
@@ -558,28 +577,40 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
                 {currentStep === 'intro' && t.routine.stepIndicator}
                 {currentStep === 'gabor' &&
                   (language === 'en'
-                    ? 'Phase 1: Identical 3-Match'
+                    ? 'Phase 1 · Identical 3-Match (90s)'
                     : language === 'ja'
-                    ? 'ステップ1: 同じ形3個探し'
+                    ? 'ステップ1 · 同じ形3個探し (90秒)'
                     : language === 'zh'
-                    ? '第1阶段: 3个相同形状配对'
+                    ? '第1阶段 · 3个相同形状配对 (90秒)'
                     : language === 'es'
-                    ? 'Fase 1: 3 Formas Idénticas'
+                    ? 'Fase 1 · 3 Formas Idénticas (90s)'
                     : language === 'fr'
-                    ? 'Phase 1 : 3 Formes Identiques'
-                    : '1단계: 똑같은 모양 3개 찾기')}
+                    ? 'Phase 1 · 3 Formes Identiques (90s)'
+                    : '1단계 · 똑같은 모양 3개 찾기 (90초)')}
                 {currentStep === 'accommodation' &&
                   (language === 'en'
-                    ? 'Phase 2: 20-20-20 Stretch'
+                    ? 'Phase 2 · Far-Near Gaze (30s)'
                     : language === 'ja'
-                    ? 'ステップ2: 20-20-20ストレッチ'
+                    ? 'ステップ2 · 遠近ピント調節 (30秒)'
                     : language === 'zh'
-                    ? '第2阶段: 20-20-20远近放松'
+                    ? '第2阶段 · 远近交替凝视 (30秒)'
                     : language === 'es'
-                    ? 'Fase 2: Estiramiento 20-20-20'
+                    ? 'Fase 2 · Enfoque Cerca-Lejos (30s)'
                     : language === 'fr'
-                    ? 'Phase 2 : Étirement 20-20-20'
-                    : '2단계: 20-20-20 스트레칭')}
+                    ? 'Phase 2 · Mise au Point Près-Loin (30s)'
+                    : '2단계 · 원근 교대 응시 (30초)')}
+                {currentStep === 'stretching' &&
+                  (language === 'en'
+                    ? 'Phase 3 · Eye Stretching (60s)'
+                    : language === 'ja'
+                    ? 'ステップ3 · 目のストレッチ (60秒)'
+                    : language === 'zh'
+                    ? '第3阶段 · 眼部拉伸 (60秒)'
+                    : language === 'es'
+                    ? 'Fase 3 · Estiramiento Ocular (60s)'
+                    : language === 'fr'
+                    ? 'Phase 3 · Étirements Oculaires (60s)'
+                    : '3단계 · 최적 눈 스트레칭 (60초)')}
                 {currentStep === 'completed' && t.routine.completeTitle}
               </span>
             </div>
@@ -588,7 +619,7 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
 
         {/* Big Digital Timer & Control */}
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xl sm:text-2xl font-extrabold text-teal-800 bg-teal-50 px-3 py-1 rounded-xl tracking-tight">
+          <span className="font-mono tabular-nums text-xl sm:text-2xl font-extrabold text-teal-800 bg-teal-50 px-3 py-1 rounded-xl tracking-tight">
             {formatTime(secondsRemaining)}
           </span>
           {currentStep !== 'intro' && currentStep !== 'completed' && (
@@ -603,18 +634,46 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
         </div>
       </div>
 
-      {/* Progress Bars */}
-      <div className="grid grid-cols-2 gap-2 pt-1">
-        <div
-          className={`h-2 rounded-full transition-all ${
-            secondsRemaining <= 60 ? 'bg-teal-600' : isActive ? 'bg-teal-400' : 'bg-slate-200'
-          }`}
-        />
-        <div
-          className={`h-2 rounded-full transition-all ${
-            secondsRemaining === 0 ? 'bg-teal-600' : secondsRemaining < 60 ? 'bg-teal-400' : 'bg-slate-200'
-          }`}
-        />
+      {/* 3-Phase Progress Bars (90s Gabor · 30s Accommodation · 60s Eye Stretch) */}
+      <div className="grid grid-cols-3 gap-2 pt-1">
+        <div className="space-y-1">
+          <div
+            className={`h-2 rounded-full transition-all ${
+              secondsRemaining <= 90 ? 'bg-teal-600' : isActive ? 'bg-teal-400' : 'bg-slate-200'
+            }`}
+          />
+          <span className="block text-[10px] text-slate-500 text-center tabular-nums">
+            {language === 'en' ? '1. Gabor 90s' : language === 'ja' ? '1. ガボール 90秒' : language === 'zh' ? '1. 伽博 90秒' : language === 'es' ? '1. Gabor 90s' : language === 'fr' ? '1. Gabor 90s' : '1. 가보르 90초'}
+          </span>
+        </div>
+        <div className="space-y-1">
+          <div
+            className={`h-2 rounded-full transition-all ${
+              secondsRemaining <= 60
+                ? 'bg-teal-600'
+                : currentStep === 'accommodation'
+                ? 'bg-teal-400'
+                : 'bg-slate-200'
+            }`}
+          />
+          <span className="block text-[10px] text-slate-500 text-center tabular-nums">
+            {language === 'en' ? '2. Focus 30s' : language === 'ja' ? '2. 遠近 30秒' : language === 'zh' ? '2. 远近 30秒' : language === 'es' ? '2. Enfoque 30s' : language === 'fr' ? '2. Focus 30s' : '2. 원근 30초'}
+          </span>
+        </div>
+        <div className="space-y-1">
+          <div
+            className={`h-2 rounded-full transition-all ${
+              secondsRemaining === 0
+                ? 'bg-teal-600'
+                : currentStep === 'stretching'
+                ? 'bg-teal-400'
+                : 'bg-slate-200'
+            }`}
+          />
+          <span className="block text-[10px] text-slate-500 text-center tabular-nums">
+            {language === 'en' ? '3. Stretch 60s' : language === 'ja' ? '3. 体操 60秒' : language === 'zh' ? '3. 拉伸 60秒' : language === 'es' ? '3. Estirar 60s' : language === 'fr' ? '3. Étirer 60s' : '3. 스트레칭 60초'}
+          </span>
+        </div>
       </div>
 
       {/* SCREEN 1: CLEAN INTRO */}
@@ -628,6 +687,13 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
             <p className="text-xs text-slate-600 leading-relaxed">
               {t.routine.startDesc}
             </p>
+            <div className="pt-1 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-teal-800 tabular-nums">
+              <span>{language === 'en' ? 'Gabor 90s' : language === 'ja' ? 'ガボール 90秒' : language === 'zh' ? '伽博 90秒' : '가보르 90초'}</span>
+              <span aria-hidden="true">·</span>
+              <span>{language === 'en' ? 'Far-Near 30s' : language === 'ja' ? '遠近凝視 30秒' : language === 'zh' ? '远近凝视 30秒' : '원근 응시 30초'}</span>
+              <span aria-hidden="true">·</span>
+              <span>{language === 'en' ? 'Eye Stretch 60s' : language === 'ja' ? '目の体操 60秒' : language === 'zh' ? '眼部拉伸 60秒' : '눈 스트레칭 60초'}</span>
+            </div>
           </div>
 
           <button
@@ -883,6 +949,26 @@ export const DailyRoutine3Min: React.FC<DailyRoutineProps> = ({
           </div>
         </div>
       )}
+
+      {/* SCREEN 4: GUIDED EYE STRETCHING (60s Finale: Left-Right, Up-Down, Infinity, Circle, Blink) */}
+      {currentStep === 'stretching' && (() => {
+        const stretchElapsed = Math.max(0, Math.min(59, 60 - secondsRemaining));
+        const stretchExerciseIdx = Math.floor(stretchElapsed / 12);
+        const stretchExSecsLeft = 12 - (stretchElapsed % 12);
+
+        return (
+          <div className="space-y-3 animate-in fade-in duration-200">
+            <GuidedEyeStretchStage
+              exerciseIndex={stretchExerciseIdx}
+              exerciseSecondsLeft={stretchExSecsLeft}
+              isActive={isActive}
+              language={language}
+              announceOnExerciseChange
+              compact
+            />
+          </div>
+        );
+      })()}
 
       {/* SCREEN 4: COMPLETED SUMMARY */}
       {currentStep === 'completed' && (

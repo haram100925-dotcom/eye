@@ -302,7 +302,6 @@ export const GaborStageGame: React.FC<GaborStageGameProps> = ({
   const handleStageClear = () => {
     setIsPlaying(false);
     setIsCompleted(true);
-    audioGuide.playCelebrationFanfare();
 
     // Unlock next level
     const nextLvl = Math.min(10, selectedLevel + 1);

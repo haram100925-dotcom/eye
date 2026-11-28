@@ -140,16 +140,16 @@ export const EyeTrackerStats: React.FC<EyeTrackerProps> = ({
         : '일일 패턴 훈련';
     }
     return language === 'en'
-      ? 'Eye Exercise'
+      ? 'Eye Stretching'
       : language === 'ja'
-      ? '眼筋ストレッチ'
+      ? '目のストレッチ'
       : language === 'zh'
-      ? '眼肌运动'
+      ? '眼部拉伸'
       : language === 'es'
-      ? 'Ejercicio ocular'
+      ? 'Estiramiento ocular'
       : language === 'fr'
-      ? 'Exercice oculaire'
-      : '안구 운동';
+      ? 'Étirement oculaire'
+      : '눈 스트레칭';
   };
 
   return (

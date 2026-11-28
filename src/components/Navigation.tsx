@@ -15,11 +15,12 @@ import {
   TrendingUp,
   Focus,
   Globe,
+  Eye,
 } from 'lucide-react';
 import { AppLanguage } from '../types';
 import { getTranslation } from '../utils/i18n';
 
-export type ActiveTab = 'routine' | 'stages' | 'pattern' | 'vision_test' | 'stats';
+export type ActiveTab = 'routine' | 'stages' | 'pattern' | 'eye_stretch' | 'vision_test' | 'stats';
 
 interface TopNavbarProps {
   activeTab: ActiveTab;
@@ -104,10 +105,10 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
         </a>
 
         {/* Zone 2: Clean text navigation links for desktop / tablet */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+        <nav className="hidden md:flex items-center gap-4 lg:gap-5 text-sm font-medium text-slate-600">
           <button
             onClick={() => onSelectTab('routine')}
-            className={`transition-colors cursor-pointer ${
+            className={`transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
               activeTab === 'routine' ? 'text-teal-700 font-bold' : 'hover:text-slate-900'
             }`}
           >
@@ -115,7 +116,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
           </button>
           <button
             onClick={() => onSelectTab('stages')}
-            className={`transition-colors cursor-pointer ${
+            className={`transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
               activeTab === 'stages' ? 'text-teal-700 font-bold' : 'hover:text-slate-900'
             }`}
           >
@@ -123,15 +124,23 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
           </button>
           <button
             onClick={() => onSelectTab('pattern')}
-            className={`transition-colors cursor-pointer ${
+            className={`transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
               activeTab === 'pattern' ? 'text-teal-700 font-bold' : 'hover:text-slate-900'
             }`}
           >
             {t.tabs.pattern}
           </button>
           <button
+            onClick={() => onSelectTab('eye_stretch')}
+            className={`transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+              activeTab === 'eye_stretch' ? 'text-teal-700 font-bold' : 'hover:text-slate-900'
+            }`}
+          >
+            {t.tabs.eyeStretch}
+          </button>
+          <button
             onClick={() => onSelectTab('vision_test')}
-            className={`transition-colors cursor-pointer ${
+            className={`transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
               activeTab === 'vision_test' ? 'text-teal-700 font-bold' : 'hover:text-slate-900'
             }`}
           >
@@ -139,7 +148,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
           </button>
           <button
             onClick={() => onSelectTab('stats')}
-            className={`transition-colors cursor-pointer ${
+            className={`transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
               activeTab === 'stats' ? 'text-teal-700 font-bold' : 'hover:text-slate-900'
             }`}
           >
@@ -287,19 +296,20 @@ export const BottomTabBar: React.FC<BottomTabBarProps> = ({
 }) => {
   const t = getTranslation(language);
   const tabs = [
-    { id: 'routine', label: t.tabs.routine, icon: Timer },
-    { id: 'stages', label: t.tabs.stages, icon: Focus },
-    { id: 'pattern', label: t.tabs.pattern, icon: Scan },
-    { id: 'vision_test', label: t.tabs.visionTest, icon: Target },
-    { id: 'stats', label: t.tabs.stats, icon: BarChart3 },
+    { id: 'routine', label: t.mobileTabs.routine, icon: Timer },
+    { id: 'stages', label: t.mobileTabs.stages, icon: Focus },
+    { id: 'pattern', label: t.mobileTabs.pattern, icon: Scan },
+    { id: 'eye_stretch', label: t.mobileTabs.eyeStretch, icon: Eye },
+    { id: 'vision_test', label: t.mobileTabs.visionTest, icon: Target },
+    { id: 'stats', label: t.mobileTabs.stats, icon: BarChart3 },
   ];
 
   return (
     <div
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/80 px-2 pb-safe bottom-tab-bar transition-all duration-200"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/80 px-1.5 pb-safe bottom-tab-bar transition-all duration-200"
       style={bottomOffsetPx > 0 ? { bottom: `${bottomOffsetPx}px` } : undefined}
     >
-      <div className="grid grid-cols-5 items-center h-16 max-w-lg mx-auto">
+      <div className="grid grid-cols-6 items-center h-16 max-w-lg mx-auto">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;

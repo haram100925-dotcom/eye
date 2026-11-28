@@ -7,6 +7,15 @@ export interface Translations {
     routine: string;
     stages: string;
     pattern: string;
+    eyeStretch: string;
+    visionTest: string;
+    stats: string;
+  };
+  mobileTabs: {
+    routine: string;
+    stages: string;
+    pattern: string;
+    eyeStretch: string;
     visionTest: string;
     stats: string;
   };
@@ -107,6 +116,23 @@ export interface Translations {
     densityStandard: string;
     densityDense: string;
   };
+  stretching: {
+    badge: string;
+    subBadge: string;
+    title: string;
+    courseIntroTitle: string;
+    desc: string;
+    modeFullCourse: string;
+    modeSingleFocus: string;
+    startBtn: string;
+    pauseBtn: string;
+    resumeBtn: string;
+    nextMoveBtn: string;
+    resetBtn: string;
+    completeTitle: string;
+    completeDesc: string;
+    retryBtn: string;
+  };
   visionTest: {
     badge: string;
     title: string;
@@ -202,8 +228,17 @@ export const translations: Record<AppLanguage, Translations> = {
       routine: '3분 루틴',
       stages: '가보르 10단계',
       pattern: '패턴 생성',
+      eyeStretch: '눈 스트레칭',
       visionTest: '시력 측정',
       stats: '기록 통계',
+    },
+    mobileTabs: {
+      routine: '3분루틴',
+      stages: '10단계',
+      pattern: '패턴',
+      eyeStretch: '스트레칭',
+      visionTest: '시력측정',
+      stats: '통계',
     },
     navbar: {
       streakDays: '일 연속',
@@ -237,7 +272,7 @@ export const translations: Record<AppLanguage, Translations> = {
       badge: '3분 루틴',
       stepIndicator: '하루 3분 케어',
       startTitle: '오늘의 3분 루틴',
-      startDesc: '똑같은 모양의 가보르 패치 3개를 맞춰 시각 피질을 자극하고, 원근 조절 스트레칭으로 눈의 초점 근육을 이완합니다.',
+      startDesc: '가보르 패치 90초 + 원근 교대 응시 30초 + 최적 눈 스트레칭 60초로 구성된 3단계 집중 케어입니다.',
       difficultyTitle: '가보르 줄무늬 각도 난이도 선택',
       levelBeginner: '초급 (수평·수직 2방향)',
       levelIntermediate: '중급 (4방향 기본)',
@@ -301,6 +336,23 @@ export const translations: Record<AppLanguage, Translations> = {
       densityLarge: '대형',
       densityStandard: '표준',
       densityDense: '고밀도',
+    },
+    stretching: {
+      badge: '눈 스트레칭',
+      subBadge: '시선 추적 · 깜빡임 · 음성 코칭',
+      title: '맞춤형 안구 근육 & 눈물막 스트레칭',
+      courseIntroTitle: '60초 최적 눈 스트레칭 5단계 코스',
+      desc: '좌우·상하·대각선 8자·원형 눈 돌리기·리듬 눈 깜빡임을 움직이는 점과 음성 가이드에 맞춰 1분간 따라해보세요.',
+      modeFullCourse: '전체 코스 (60초)',
+      modeSingleFocus: '원하는 동작 선택',
+      startBtn: '눈 스트레칭 시작하기',
+      pauseBtn: '일시정지',
+      resumeBtn: '계속하기',
+      nextMoveBtn: '다음 동작',
+      resetBtn: '처음으로',
+      completeTitle: '눈 스트레칭을 완료했습니다!',
+      completeDesc: '굳어있던 외안근과 눈물막이 부드럽게 순환되어 눈 피로가 완화되었습니다.',
+      retryBtn: '다시 스트레칭하기',
     },
     visionTest: {
       badge: '안과 표준 란돌트 고리',
@@ -395,8 +447,17 @@ export const translations: Record<AppLanguage, Translations> = {
       routine: '3-Min Routine',
       stages: '10 Stages',
       pattern: 'Patterns',
+      eyeStretch: 'Eye Stretch',
       visionTest: 'Eye Exam',
       stats: 'Stats & Logs',
+    },
+    mobileTabs: {
+      routine: 'Routine',
+      stages: 'Stages',
+      pattern: 'Pattern',
+      eyeStretch: 'Stretch',
+      visionTest: 'Exam',
+      stats: 'Stats',
     },
     navbar: {
       streakDays: ' Day Streak',
@@ -430,7 +491,7 @@ export const translations: Record<AppLanguage, Translations> = {
       badge: '3-Min Routine',
       stepIndicator: '3-Min Care',
       startTitle: "Today's 3-Minute Routine",
-      startDesc: 'Match 3 identical Gabor patches to stimulate your visual cortex, followed by 20-20-20 ciliary muscle relaxation.',
+      startDesc: '90s Gabor matching + 30s far-near accommodation + 60s guided eye stretching for complete vision care.',
       difficultyTitle: 'Select Stripe Orientation Difficulty',
       levelBeginner: 'Beginner (0° & 90°)',
       levelIntermediate: 'Intermediate (4 Directions)',
@@ -494,6 +555,23 @@ export const translations: Record<AppLanguage, Translations> = {
       densityLarge: 'Large',
       densityStandard: 'Standard',
       densityDense: 'High Density',
+    },
+    stretching: {
+      badge: 'Eye Stretching',
+      subBadge: 'Gaze Tracking · Blink · Voice Guide',
+      title: 'Guided Extraocular & Tear-Film Stretch',
+      courseIntroTitle: '60-Second Complete 5-Move Eye Stretch',
+      desc: 'Follow the moving dot left-right, up-down, figure-8, circular roll, and rhythmic blinking with audio guidance.',
+      modeFullCourse: 'Full Course (60s)',
+      modeSingleFocus: 'Pick One Move',
+      startBtn: 'Start Eye Stretching',
+      pauseBtn: 'Pause',
+      resumeBtn: 'Resume',
+      nextMoveBtn: 'Next Move',
+      resetBtn: 'Reset',
+      completeTitle: 'Eye Stretching Completed!',
+      completeDesc: 'Extraocular muscles are relaxed and your tear film has been freshly replenished.',
+      retryBtn: 'Stretch Again',
     },
     visionTest: {
       badge: 'Standard Landolt C Ring',
@@ -588,8 +666,17 @@ export const translations: Record<AppLanguage, Translations> = {
       routine: '3分ルーティン',
       stages: 'ガボール10段階',
       pattern: 'パターン生成',
+      eyeStretch: '目のストレッチ',
       visionTest: '視力セルフ測定',
       stats: '健康記録',
+    },
+    mobileTabs: {
+      routine: '3分',
+      stages: '10段階',
+      pattern: 'パターン',
+      eyeStretch: '体操',
+      visionTest: '視力測定',
+      stats: '記録',
     },
     navbar: {
       streakDays: '日連続',
@@ -623,7 +710,7 @@ export const translations: Record<AppLanguage, Translations> = {
       badge: '3分ルーティン',
       stepIndicator: '3分セッション',
       startTitle: '今日の3分ルーティン',
-      startDesc: '全く同じ形のガボールパッチ3個を揃えて視覚野を刺激し、遠近ストレッチで毛様体筋をほぐします。',
+      startDesc: 'ガボール90秒＋遠近ピント30秒＋目のストレッチ60秒の3ステップ集中ケアです。',
       difficultyTitle: '縞模様の角度難易度を選択',
       levelBeginner: '初級 (水平・垂直2方向)',
       levelIntermediate: '中級 (4方向基本)',
@@ -687,6 +774,23 @@ export const translations: Record<AppLanguage, Translations> = {
       densityLarge: '大型',
       densityStandard: '標準',
       densityDense: '高密度',
+    },
+    stretching: {
+      badge: '目のストレッチ',
+      subBadge: '視線追従・まばたき・音声ガイド',
+      title: '外眼筋＆ドライアイケア ストレッチ',
+      courseIntroTitle: '60秒 最適アイストレッチ5種コース',
+      desc: '左右・上下・8の字・円形回し・リズムまばたきを、動く点と音声ガイドに合わせて心地よく行います。',
+      modeFullCourse: 'フルコース (60秒)',
+      modeSingleFocus: '動作を選択',
+      startBtn: 'ストレッチを開始',
+      pauseBtn: '一時停止',
+      resumeBtn: '再開する',
+      nextMoveBtn: '次の動き',
+      resetBtn: 'リセット',
+      completeTitle: '目のストレッチが完了しました！',
+      completeDesc: '外眼筋の緊張がほぐれ、涙の循環がリフレッシュされました。',
+      retryBtn: 'もう一度行う',
     },
     visionTest: {
       badge: '国際標準ランドルト環',
@@ -781,8 +885,17 @@ export const translations: Record<AppLanguage, Translations> = {
       routine: '3分钟日常',
       stages: '伽博10关',
       pattern: '图案生成',
+      eyeStretch: '眼部拉伸',
       visionTest: '视力自测',
       stats: '健康记录',
+    },
+    mobileTabs: {
+      routine: '3分钟',
+      stages: '10关',
+      pattern: '图案',
+      eyeStretch: '拉伸',
+      visionTest: '自测',
+      stats: '记录',
     },
     navbar: {
       streakDays: '天连续',
@@ -816,7 +929,7 @@ export const translations: Record<AppLanguage, Translations> = {
       badge: '3分钟日常',
       stepIndicator: '3分钟课程',
       startTitle: '今日3分钟日常护眼',
-      startDesc: '匹配3个完全相同形状的伽博斑块以激活视觉皮质，并通过远近调节伸展放松睫状肌。',
+      startDesc: '包含伽博斑块90秒 + 远近凝视30秒 + 眼部拉伸60秒的三步护眼训练。',
       difficultyTitle: '选择斑块条纹角度难度',
       levelBeginner: '初级 (水平·垂直 2方向)',
       levelIntermediate: '中级 (基础4方向)',
@@ -880,6 +993,23 @@ export const translations: Record<AppLanguage, Translations> = {
       densityLarge: '大尺寸',
       densityStandard: '标准',
       densityDense: '高密度',
+    },
+    stretching: {
+      badge: '眼部拉伸',
+      subBadge: '光点追踪 · 眨眼 · 语音指导',
+      title: '眼外肌舒展与泪膜润眼训练',
+      courseIntroTitle: '60秒 优化5步眼部拉伸课程',
+      desc: '跟随移动光点完成左右、上下、8字、环形转动与节律眨眼，配合语音引导充分舒缓眼疲劳。',
+      modeFullCourse: '完整课程 (60秒)',
+      modeSingleFocus: '单项练习',
+      startBtn: '开始眼部拉伸',
+      pauseBtn: '暂停',
+      resumeBtn: '继续',
+      nextMoveBtn: '下一动作',
+      resetBtn: '重置',
+      completeTitle: '眼部拉伸已完成！',
+      completeDesc: '眼周外肌与泪膜已充分放松滋润，视线更加轻盈舒适。',
+      retryBtn: '再次练习',
     },
     visionTest: {
       badge: '国际眼科标准兰氏环',
@@ -974,8 +1104,17 @@ export const translations: Record<AppLanguage, Translations> = {
       routine: 'Rutina 3 Min',
       stages: '10 Fases',
       pattern: 'Patrones',
+      eyeStretch: 'Estiramiento',
       visionTest: 'Test Visual',
       stats: 'Estadísticas',
+    },
+    mobileTabs: {
+      routine: '3 Min',
+      stages: 'Fases',
+      pattern: 'Patrón',
+      eyeStretch: 'Estirar',
+      visionTest: 'Test',
+      stats: 'Datos',
     },
     navbar: {
       streakDays: ' Días Racha',
@@ -1009,7 +1148,7 @@ export const translations: Record<AppLanguage, Translations> = {
       badge: 'Rutina 3 Min',
       stepIndicator: 'Sesión 3 Min',
       startTitle: 'Rutina de 3 Minutos de Hoy',
-      startDesc: 'Reúna 3 parches de Gabor idénticos para estimular la corteza visual y relaje el músculo ciliar con enfoque dinámico.',
+      startDesc: '90s de parches Gabor + 30s de enfoque cercano/lejano + 60s de estiramiento ocular guiado.',
       difficultyTitle: 'Seleccionar Dificultad de Ángulos de Rayas',
       levelBeginner: 'Principiante (0° y 90°)',
       levelIntermediate: 'Intermedio (4 Direcciones)',
@@ -1073,6 +1212,23 @@ export const translations: Record<AppLanguage, Translations> = {
       densityLarge: 'Grande',
       densityStandard: 'Estándar',
       densityDense: 'Alta Densidad',
+    },
+    stretching: {
+      badge: 'Estiramiento Ocular',
+      subBadge: 'Seguimiento · Parpadeo · Voz',
+      title: 'Estiramiento Muscular y Hidratación Ocular',
+      courseIntroTitle: 'Curso Guiado de 60 Segundos (5 Movimientos)',
+      desc: 'Siga el punto en movimientos horizontales, verticales, figura 8, circulares y parpadeo rítmico con voz.',
+      modeFullCourse: 'Curso Completo (60s)',
+      modeSingleFocus: 'Elegir Movimiento',
+      startBtn: 'Iniciar Estiramiento',
+      pauseBtn: 'Pausar',
+      resumeBtn: 'Reanudar',
+      nextMoveBtn: 'Siguiente',
+      resetBtn: 'Reiniciar',
+      completeTitle: '¡Estiramiento Ocular Completado!',
+      completeDesc: 'Sus músculos extraoculares y película lagrimal han sido relajados y renovados.',
+      retryBtn: 'Repetir Estiramiento',
     },
     visionTest: {
       badge: 'Anillo Estándar Landolt C',
@@ -1167,8 +1323,17 @@ export const translations: Record<AppLanguage, Translations> = {
       routine: 'Routine 3 Min',
       stages: '10 Étapes',
       pattern: 'Motifs',
+      eyeStretch: 'Étirements',
       visionTest: 'Test Visuel',
       stats: 'Statistiques',
+    },
+    mobileTabs: {
+      routine: '3 Min',
+      stages: 'Étapes',
+      pattern: 'Motifs',
+      eyeStretch: 'Étirer',
+      visionTest: 'Test',
+      stats: 'Stats',
     },
     navbar: {
       streakDays: ' Jours de Suite',
@@ -1202,7 +1367,7 @@ export const translations: Record<AppLanguage, Translations> = {
       badge: 'Routine 3 Min',
       stepIndicator: 'Session 3 Min',
       startTitle: "Routine 3 Min d'Aujourd'hui",
-      startDesc: 'Associez 3 patchs de Gabor identiques pour stimuler le cortex visuel et détendez le muscle ciliaire.',
+      startDesc: '90s de patchs Gabor + 30s de mise au point près/loin + 60s d’étirement oculaire guidé.',
       difficultyTitle: 'Sélectionner la Difficulté d’Orientation des Rayures',
       levelBeginner: 'Débutant (0° et 90°)',
       levelIntermediate: 'Intermédiaire (4 Directions)',
@@ -1266,6 +1431,23 @@ export const translations: Record<AppLanguage, Translations> = {
       densityLarge: 'Grand',
       densityStandard: 'Standard',
       densityDense: 'Haute Densité',
+    },
+    stretching: {
+      badge: 'Étirements Oculaires',
+      subBadge: 'Suivi · Clignement · Voix',
+      title: 'Relaxation des Muscles & Film Lacrymal',
+      courseIntroTitle: 'Parcours Guidé de 60 Secondes (5 Mouvements)',
+      desc: 'Suivez le point (gauche-droite, haut-bas, huit, cercle) puis clignez en rythme avec le guidage vocal.',
+      modeFullCourse: 'Parcours Complet (60s)',
+      modeSingleFocus: 'Choisir un Exercice',
+      startBtn: "Démarrer l'Étirement",
+      pauseBtn: 'Pause',
+      resumeBtn: 'Reprendre',
+      nextMoveBtn: 'Suivant',
+      resetBtn: 'Réinitialiser',
+      completeTitle: 'Étirement Oculaire Terminé !',
+      completeDesc: 'Vos muscles oculaires sont détendus et votre film lacrymal est agréablement réhydraté.',
+      retryBtn: 'Recommencer',
     },
     visionTest: {
       badge: 'Anneau de Landolt C Standard',

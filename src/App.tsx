@@ -13,6 +13,7 @@ import { MascotGuide } from './components/MascotGuide';
 import { DailyRoutine3Min } from './components/DailyRoutine3Min';
 import { GaborStageGame } from './components/GaborStageGame';
 import { DailyPatternGenerator } from './components/DailyPatternGenerator';
+import { EyeStretchingStudio } from './components/EyeStretchingStudio';
 import { VisionAcuityTest } from './components/VisionAcuityTest';
 import { EyeTrackerStats } from './components/EyeTrackerStats';
 import { ReminderModal } from './components/ReminderModal';
@@ -238,6 +239,8 @@ export default function App() {
               ? 'greeting'
               : activeTab === 'stages'
               ? 'coaching'
+              : activeTab === 'eye_stretch'
+              ? 'resting'
               : activeTab === 'stats'
               ? 'cheering'
               : 'coaching'
@@ -350,6 +353,17 @@ export default function App() {
             <DailyPatternGenerator
               targetGroup={preferences.targetGroup}
               nightMode={preferences.nightMode}
+              language={preferences.language || 'ko'}
+            />
+          </div>
+        )}
+
+        {/* Tab 4: Guided Eye Stretching */}
+        {activeTab === 'eye_stretch' && (
+          <div className="animate-in fade-in duration-200">
+            <EyeStretchingStudio
+              voiceEnabled={preferences.voiceGuide}
+              onSessionComplete={handleSessionFinished}
               language={preferences.language || 'ko'}
             />
           </div>
